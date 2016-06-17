@@ -54,10 +54,12 @@ benbid2=Bid(price=122,user=ben,item=baseball)
 session.add_all([dan, david, ben])
 
 # Query to find highest bidder
-bidlist=session.query(Bid.price, Bid.biduser_id).order_by(desc(Bid.price)).all()
+bidlist=session.query(Bid.price, User.name).filter(
+                    Bid.biduser_id==User.id).order_by(desc(Bid.price)).first()
 print("\n{} is selling a {}!\n".format(baseball.owner.name,baseball.name))
-print("The bids are as follow in descending order: \n")
-print(bidlist)
+
+print("The highest bidder is {} with a bid price of ${}.\n"
+        .format(bidlist[1],bidlist[0]))
 
 session.commit()
 
